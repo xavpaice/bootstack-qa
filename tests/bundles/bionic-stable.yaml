@@ -30,8 +30,6 @@ applications:
   graylog:
     charm: cs:graylog
     num_units: 1
-    options:
-      channel: 3/stable
   hw-health:
     charm: cs:hw-health
   keystone:
@@ -46,8 +44,6 @@ applications:
   nagios:
     charm: cs:nagios
     num_units: 1
-    options:
-      enable_livestatus: true
   nrpe:
     charm: cs:nrpe
   prometheus:
@@ -64,12 +60,16 @@ applications:
     num_units: 1
     options:
       snap_channel: stable
+  openstack-service-checks:
+    charm: cs:openstack-service-checks
+    num_units: 1
+    options:
+      check-neutron-agents: False
+      check-octavia: False
   sysconfig:
     charm: cs:sysconfig
   telegraf:
-    charm: cs:telegraf
-  thruk-agent:
-    charm: cs:thruk-agent
+    charm: cs:telegraf-41
 relations:
 - - prometheus-openstack-exporter:nrpe-external-master
   - nrpe:nrpe-external-master
@@ -101,8 +101,6 @@ relations:
   - elasticsearch:client
 - - easyrsa:client
   - graylog:certificates
-- - thruk-agent:general-info
-  - nagios:juju-info
 - - sysconfig:juju-info
   - mysql:juju-info
 - - easyrsa:juju-info
@@ -124,3 +122,7 @@ relations:
 - - ceph-mon:nrpe-external-master
   - nrpe:nrpe-external-master
 - ["ceph-osd", "filebeat"]
+- - keystone:identity-credentials
+  - openstack-service-checks:identity-credentials
+- - openstack-service-checks:nrpe-external-master
+  - nrpe:nrpe-external-master
