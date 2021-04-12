@@ -1,7 +1,7 @@
 gate_bundles:
   - bionic-stable
 tests:
-  - tests.modules.bootstackqa.BootstackQaTests
+  - tests.modules.bootstackqa.BootstackCandidateUpgrade
 target_deploy_status:
   hw-health:
     workload-status: "maintenance"

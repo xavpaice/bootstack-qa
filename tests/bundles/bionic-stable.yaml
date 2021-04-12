@@ -123,3 +123,4 @@ relations:
   - nrpe:nrpe-external-master
 - - ceph-mon:nrpe-external-master
   - nrpe:nrpe-external-master
+- ["ceph-osd", "filebeat"]
