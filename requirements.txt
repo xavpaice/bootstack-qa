@@ -1,0 +1,6 @@
+flake8
+juju
+mock
+requests
+git+https://github.com/openstack-charmers/zaza.git#egg=zaza
+charmhelpers

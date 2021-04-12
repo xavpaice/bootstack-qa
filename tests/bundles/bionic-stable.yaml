@@ -1,0 +1,125 @@
+series: bionic
+applications:
+  ceph-mon:
+    charm: cs:ceph-mon
+    num_units: 1
+    options:
+      monitor-count: 1
+      source: cloud:bionic-stein
+  ceph-osd:
+    charm: cs:ceph-osd
+    num_units: 3
+    storage:
+      osd-devices: 'cinder,10G'
+    options:
+      osd-devices: '/dev/vdb'
+      source: cloud:bionic-stein
+  easyrsa:
+    charm: cs:~containers/easyrsa
+    num_units: 1
+  elasticsearch:
+    charm: cs:elasticsearch
+    num_units: 1
+    options:
+      es-heap-size: 1
+  filebeat:
+    charm: cs:filebeat
+  grafana:
+    charm: cs:grafana
+    num_units: 1
+  graylog:
+    charm: cs:graylog
+    num_units: 1
+    options:
+      channel: 3/stable
+  hw-health:
+    charm: cs:hw-health
+  keystone:
+    charm: cs:keystone
+    num_units: 1
+  mongodb:
+    charm: cs:mongodb
+    num_units: 1
+  mysql:
+    charm: cs:percona-cluster
+    num_units: 1
+  nagios:
+    charm: cs:nagios
+    num_units: 1
+    options:
+      enable_livestatus: true
+  nrpe:
+    charm: cs:nrpe
+  prometheus:
+    charm: cs:prometheus2
+    num_units: 1
+  prometheus-alertmanager:
+    charm: cs:prometheus-alertmanager
+    num_units: 1
+  prometheus-ceph-exporter:
+    charm: cs:prometheus-ceph-exporter
+    num_units: 1
+  prometheus-openstack-exporter:
+    charm: cs:prometheus-openstack-exporter
+    num_units: 1
+    options:
+      snap_channel: stable
+  sysconfig:
+    charm: cs:sysconfig
+  telegraf:
+    charm: cs:telegraf
+  thruk-agent:
+    charm: cs:thruk-agent
+relations:
+- - prometheus-openstack-exporter:nrpe-external-master
+  - nrpe:nrpe-external-master
+- - prometheus-openstack-exporter:prometheus-openstack-exporter-service
+  - prometheus:target
+- - prometheus-openstack-exporter:prometheus-rules
+  - prometheus:prometheus-rules
+- - keystone:identity-credentials
+  - prometheus-openstack-exporter:identity-credentials
+- - keystone:shared-db
+  - mysql:shared-db
+- - nagios:monitors
+  - nrpe:monitors
+- - telegraf:juju-info
+  - keystone:juju-info
+- - telegraf:mysql
+  - mysql:db-admin
+- - prometheus:target
+  - telegraf:prometheus-client
+- - prometheus:prometheus-rules
+  - telegraf:prometheus-rules
+- - prometheus:alertmanager-service
+  - prometheus-alertmanager:alertmanager-service
+- - graylog:beats
+  - filebeat:logstash
+- - graylog:mongodb
+  - mongodb:database
+- - graylog:elasticsearch
+  - elasticsearch:client
+- - easyrsa:client
+  - graylog:certificates
+- - thruk-agent:general-info
+  - nagios:juju-info
+- - sysconfig:juju-info
+  - mysql:juju-info
+- - easyrsa:juju-info
+  - hw-health:general-info
+- - prometheus-ceph-exporter:nrpe-external-master
+  - nrpe:nrpe-external-master
+- - prometheus-ceph-exporter:ceph-exporter
+  - prometheus:target
+- - ceph-osd:mon
+  - ceph-mon:osd
+- - prometheus-ceph-exporter:ceph
+  - ceph-mon:client
+- - prometheus:grafana-source
+  - grafana:grafana-source
+- - prometheus-ceph-exporter:dashboards
+  - grafana:dashboards
+- - ceph-osd:nrpe-external-master
+  - nrpe:nrpe-external-master
+- - ceph-mon:nrpe-external-master
+  - nrpe:nrpe-external-master

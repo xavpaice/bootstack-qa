@@ -1,0 +1,10 @@
+gate_bundles:
+  - bionic-stable
+tests:
+  - tests.modules.bootstackqa.BootstackQaTests
+target_deploy_status:
+  hw-health:
+    workload-status: "maintenance"
+    workload-status-message: "Installing freeipmi,libipc-run-perl"
+
+
