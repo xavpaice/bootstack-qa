@@ -1,11 +1,18 @@
 gate_bundles:
-  - bionic-stable
+  - upgrade: focal-stable
+  - upgrade: bionic-stable
+  - upgrade: xenial-stable
+  - candidate: focal-candidate
+  - candidate: bionic-candidate
+  - candidate: xenial-candidate
+smoke_bundles:
+  - upgrade: bionic-stable
 tests:
-  - tests.modules.bootstackqa.BootstackCandidateUpgrade
+  - upgrade:
+    - tests.modules.bootstackqa.BootstackCandidateUpgrade
+  - candidate:
+    - tests.modules.bootstackqa.BootstackCandidateInstall
 target_deploy_status:
-  hw-health:
-    workload-status: "maintenance"
-    workload-status-message: "Installing freeipmi,libipc-run-perl"
   easyrsa:
     workload-status: "active"
     workload-status-message: "Certificate Authority connected."

@@ -3,9 +3,7 @@
 
 import unittest
 
-import zaza.model
-from juju import loop
-from juju.model import Model
+from zaza import model
 
 
 class TestBase(unittest.TestCase):
@@ -14,7 +12,7 @@ class TestBase(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         """Run setup for tests."""
-        cls.model_name = zaza.model.get_juju_model()
+        cls.model_name = model.get_juju_model()
         cls.charms = [
             "elasticsearch",
             "filebeat",
@@ -33,39 +31,45 @@ class TestBase(unittest.TestCase):
             "telegraf",
         ]
 
-    def upgrade_charm(self, application_name, channel="stable"):
-        """Run the async tasks for Juju charm upgrade."""
-        loop.run(self.async_upgrade_charm(application_name, channel))
+    def charm_functests(self):
+        """Run some basic functests on the deployed bundle.
 
-    async def async_upgrade_charm(self, application_name, channel="stable"):
-        """Upgrade the specified charm to the latest in the specified channel."""
-        model = Model()
-        await model.connect(model_name=self.model_name)
-        app = model.applications[application_name]
-        await app.upgrade_charm(channel=channel)
-        await model.disconnect()
+        Tests to write:
+        - nagios checks are green (with some known exceptions)
+        - grafana hosts a known list of dashboards
+        - metrics are available from the prometheus exporters and telegraf
+        - graylog has entries in the stream
+        """
+        pass
 
 
 class BootstackCandidateUpgrade(TestBase):
-    """QA tests for charm release."""
+    """QA tests for charm release.
 
-    def charm_functests(self):
-        """Run some basic functests on the deployed bundle."""
-        pass
-
-    def test01_test_charms(self):
-        """Test charm functionality."""
-        self.charm_functests()
+    Runs a deploy of the bundle using current stable charms, then tests upgrade.
+    """
 
     def test10_upgrade_charms(self):
         """Test upgrade charm to candidate channel."""
         for application_name in self.charms:
             try:
-                self.upgrade_charm(application_name, channel='candidate')
+                model.upgrade_charm(
+                    application_name, channel="candidate", model_name=self.model_name
+                )
             except Exception as e:
                 print("Failed to upgrade charm %s with %s" % (application_name, e))
-        # wait for stable
+        model.block_until_all_units_idle(self.model_name)
+
+    def test11_test_charms(self):
+        """Test charm functionality after upgrade."""
         self.charm_functests()
+
+
+class BootstackCandidateInstall(TestBase):
+    """QA tests for charm release.
+
+    Runs a deploy of the bundle using candidate charms.
+    """
 
     def test11_test_charms(self):
         """Test charm functionality after upgrade."""

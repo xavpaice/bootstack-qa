@@ -4,3 +4,4 @@ mock
 requests
 git+https://github.com/openstack-charmers/zaza.git#egg=zaza
 charmhelpers
+python-openstackclient

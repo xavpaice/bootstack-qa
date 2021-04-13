@@ -1,11 +1,11 @@
-series: bionic
+series: xenial
 applications:
   ceph-mon:
     charm: cs:ceph-mon
     num_units: 1
     options:
       monitor-count: 1
-      source: cloud:bionic-stein
+      source: cloud:xenial-queens
     to:
       - "0"
   ceph-osd:
@@ -15,7 +15,7 @@ applications:
       osd-devices: 'cinder,10G'
     options:
       osd-devices: '/dev/vdb'
-      source: cloud:bionic-stein
+      source: cloud:xenial-queens
     to:
       - "1"
       - "2"
@@ -27,6 +27,7 @@ applications:
       - "1"
   elasticsearch:
     charm: cs:elasticsearch
+    channel: candidate
     num_units: 1
     options:
       es-heap-size: 1
@@ -34,13 +35,16 @@ applications:
       - "15"
   filebeat:
     charm: cs:filebeat
+    channel: candidate
   grafana:
     charm: cs:grafana
+    channel: candidate
     num_units: 1
     to:
       - "5"
   graylog:
     charm: cs:graylog
+    channel: candidate
     num_units: 1
     options:
       channel: 2/stable
@@ -48,6 +52,7 @@ applications:
       - "4"
   hw-health:
     charm: cs:hw-health
+    channel: candidate
   keystone:
     charm: cs:keystone
     num_units: 1
@@ -55,6 +60,7 @@ applications:
       - "6"
   mongodb:
     charm: cs:mongodb
+    channel: candidate
     num_units: 1
     to:
       - "14"
@@ -65,11 +71,13 @@ applications:
       - "7"
   nagios:
     charm: cs:nagios
+    channel: candidate
     num_units: 1
     to:
       - "8"
   nrpe:
     charm: cs:nrpe
+    channel: candidate
     options:
       swap: ''
   nova-cloud-controller:
@@ -78,12 +86,12 @@ applications:
     to:
       - "9"
     options:
-      openstack-origin: cloud:bionic-stein
+      openstack-origin: cloud:xenial-queens
   cinder:
     charm: cs:cinder
     num_units: 1
     options:
-      openstack-origin: cloud:bionic-stein
+      openstack-origin: cloud:xenial-queens
     to:
       - "10"
   rabbitmq-server:
@@ -93,21 +101,25 @@ applications:
       - "11"
   prometheus:
     charm: cs:prometheus2
+    channel: candidate
     num_units: 1
     to:
       - "12"
   prometheus-alertmanager:
     charm: cs:prometheus-alertmanager
+    channel: candidate
     num_units: 1
     to:
       - "13"
   prometheus-ceph-exporter:
     charm: cs:prometheus-ceph-exporter
+    channel: candidate
     num_units: 1
     to:
       - "13"
   prometheus-openstack-exporter:
     charm: cs:prometheus-openstack-exporter
+    channel: candidate
     num_units: 1
     options:
       snap_channel: stable
@@ -115,6 +127,7 @@ applications:
       - "0"
   openstack-service-checks:
     charm: cs:~llama-charmers/openstack-service-checks
+    channel: candidate
     num_units: 1
     options:
       check-neutron-agents: False
@@ -123,12 +136,14 @@ applications:
       - "12"
   sysconfig:
     charm: cs:sysconfig
+    channel: candidate
   telegraf:
     charm: cs:telegraf-41
+    channel: candidate
   nova-compute:
     charm: cs:nova-compute
     options:
-      openstack-origin: cloud:bionic-stein
+      openstack-origin: cloud:xenial-queens
     num_units: 1
     to:
       - "2"
@@ -136,13 +151,13 @@ applications:
     charm: cs:glance
     num_units: 1
     options:
-      openstack-origin: cloud:bionic-stein
+      openstack-origin: cloud:xenial-queens
     to:
       - "3"
   neutron-api:
     charm: cs:neutron-api
     options:
-      openstack-origin: cloud:bionic-stein
+      openstack-origin: cloud:xenial-queens
     num_units: 1
     to:
       - "1"
