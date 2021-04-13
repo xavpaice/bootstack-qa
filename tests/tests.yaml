@@ -6,7 +6,8 @@ gate_bundles:
   - candidate: bionic-candidate
   - candidate: xenial-candidate
 smoke_bundles:
-  - upgrade: bionic-stable
+  #- upgrade: bionic-stable
+  - upgrade: xenial-stable
 tests:
   - upgrade:
     - tests.modules.bootstackqa.BootstackCandidateUpgrade
@@ -31,6 +32,9 @@ target_deploy_status:
   filebeat:
     workload-status: "active"
     workload-status-message: "Filebeat ready."
+  canonical-livepatch:
+    workload-status: "blocked"
+    workload-status-message: "Service disabled, please set livepatch_key to activate"
 
 
 

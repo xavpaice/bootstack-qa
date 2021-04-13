@@ -14,6 +14,7 @@ class TestBase(unittest.TestCase):
         """Run setup for tests."""
         cls.model_name = model.get_juju_model()
         cls.charms = [
+            "canonical-livepatch",
             "elasticsearch",
             "grafana",
             "graylog",

@@ -149,6 +149,9 @@ applications:
   prometheus-libvirt-exporter:
     charm: cs:prometheus-libvirt-exporter
     num_units: 0
+  canonical-livepatch:
+    charm: cs:canonical-livepatch
+    num_units: 0
 machines:
   "0": {}
   "1": {}
@@ -272,3 +275,5 @@ relations:
   - prometheus-libvirt-exporter:juju-info
 - - prometheus:target
   - prometheus-libvirt-exporter:scrape
+- - canonical-livepatch:juju-info
+  - ceph-osd:juju-info
