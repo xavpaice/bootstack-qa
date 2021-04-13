@@ -15,7 +15,6 @@ class TestBase(unittest.TestCase):
         cls.model_name = model.get_juju_model()
         cls.charms = [
             "elasticsearch",
-            "filebeat",
             "grafana",
             "graylog",
             "hw-health",
@@ -27,6 +26,7 @@ class TestBase(unittest.TestCase):
             "prometheus-alertmanager",
             "prometheus-ceph-exporter",
             "prometheus-openstack-exporter",
+            "prometheus-libvirt-exporter",
             "sysconfig",
             "telegraf",
         ]
@@ -36,9 +36,12 @@ class TestBase(unittest.TestCase):
 
         Tests to write:
         - nagios checks are green (with some known exceptions)
+          Cannot automate till LP:#1923407 is resolved, need mklivestatus for API
         - grafana hosts a known list of dashboards
+          GET /api/search?folderIds=0&query=&starred=false HTTP/1.1
         - metrics are available from the prometheus exporters and telegraf
         - graylog has entries in the stream
+
         """
         pass
 

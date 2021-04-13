@@ -146,6 +146,9 @@ applications:
     num_units: 1
     to:
       - "1"
+  prometheus-libvirt-exporter:
+    charm: cs:prometheus-libvirt-exporter
+    num_units: 0
 machines:
   "0": {}
   "1": {}
@@ -265,4 +268,7 @@ relations:
   - glance:image-service
 - - grafana:dashboards
   - telegraf:dashboards
-
+- - nova-compute:juju-info
+  - prometheus-libvirt-exporter:juju-info
+- - prometheus:target
+  - prometheus-libvirt-exporter:scrape
