@@ -6,8 +6,7 @@ gate_bundles:
   - candidate: bionic-candidate
   - candidate: xenial-candidate
 smoke_bundles:
-  #- upgrade: bionic-stable
-  - upgrade: xenial-stable
+  - upgrade: bionic-stable
 tests:
   - upgrade:
     - tests.modules.bootstackqa.BootstackCandidateUpgrade

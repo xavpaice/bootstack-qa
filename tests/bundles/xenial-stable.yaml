@@ -144,6 +144,9 @@ applications:
   canonical-livepatch:
     charm: cs:canonical-livepatch
     num_units: 0
+  thruk-agent:
+    charm: cs:thruk-agent
+    num_units: 0
 machines:
   "0": {}
   "1": {}
@@ -263,3 +266,5 @@ relations:
   - prometheus-libvirt-exporter:scrape
 - - canonical-livepatch:juju-info
   - ceph-osd:juju-info
+- - thruk-agent:general-info
+  - nagios:juju-info

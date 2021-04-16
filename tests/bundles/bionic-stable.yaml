@@ -66,8 +66,13 @@ applications:
   nagios:
     charm: cs:nagios
     num_units: 1
+    options:
+      enable_livestatus: true
     to:
       - "8"
+  thruk-agent:
+    charm: cs:thruk-agent
+    num_units: 0
   nrpe:
     charm: cs:nrpe
     options:
@@ -277,3 +282,5 @@ relations:
   - prometheus-libvirt-exporter:scrape
 - - canonical-livepatch:juju-info
   - ceph-osd:juju-info
+- - thruk-agent:general-info
+  - nagios:juju-info
