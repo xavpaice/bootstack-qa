@@ -294,3 +294,6 @@ relations:
   - prometheus-libvirt-exporter:scrape
 - - canonical-livepatch:juju-info
   - ceph-osd:juju-info
+- - grafana:nrpe-external-master
+  - nrpe:nrpe-external-master
+

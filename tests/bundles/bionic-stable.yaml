@@ -284,3 +284,6 @@ relations:
   - ceph-osd:juju-info
 - - thruk-agent:general-info
   - nagios:juju-info
+- - grafana:nrpe-external-master
+  - nrpe:nrpe-external-master
+

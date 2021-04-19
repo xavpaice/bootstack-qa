@@ -1,11 +1,16 @@
 #!/usr/bin/env python3
 """Implements BootstackQaTests."""
 
+import json
 import logging
+import requests
 import time
 import unittest
 
 from zaza import model
+
+
+TEST_TIMEOUT = 600
 
 
 def nagios_error_allowed(service, allowed_nagios_errors):
@@ -44,7 +49,82 @@ class TestBase(unittest.TestCase):
             "telegraf",
             "thruk-agent",
         ]
-        cls.nagios_unit = "nagios/0"  # could automate, but why bother
+        cls.nagios_unit = model.get_lead_unit_name('nagios')
+        cls.grafana_unit = model.get_lead_unit_name('grafana')
+        cls.grafana_ip = model.get_app_ips('grafana')[0]
+
+    @property
+    def grafana_admin_password(self):
+        """Get grafana admin password."""
+        action = model.run_action(
+            self.grafana_unit,
+            "get-admin-password",
+            raise_on_failure=True,
+        )
+        self._admin_pass = action.data["results"]["password"]
+        return self._admin_pass
+
+    def get_and_check_dashboards(self, cond):
+        """Retrieve dashboard from grafana.
+
+        Check if cond(dashboards) is true, otherwise retry up to TEST_TIMEOUT
+        """
+        timeout = time.time() + TEST_TIMEOUT
+        dashboards = []
+        while True:
+            req = requests.get(
+                "http://{host}:{port}"
+                "/api/search?dashboardIds".format(
+                    host=self.grafana_ip, port="3000"
+                ),
+                auth=("admin", self.grafana_admin_password),
+            )
+            self.assertTrue(req.status_code == 200)
+            dashboards = json.loads(req.text)
+            if time.time() > timeout or cond(dashboards):
+                break
+            time.sleep(30)
+        return dashboards
+
+    def is_grafana_api_ready(self):
+        """Verify if the API is ready.
+
+        Curl the api endpoint.
+        We'll retry until the TEST_TIMEOUT.
+        """
+        test_command = "{} -I 127.0.0.1 -p {} -u {}".format(
+            "/usr/lib/nagios/plugins/check_http",
+            "3000",
+            "/",
+        )
+        timeout = time.time() + TEST_TIMEOUT
+        while time.time() < timeout:
+            response = model.run_on_unit(self.grafana_unit, test_command)
+            if response["Code"] == "0":
+                return
+            logging.warning(
+                "Unexpected check_http response: {}. Retrying in 30s.".format(response)
+            )
+            time.sleep(30)
+
+        # we didn't get rc=0 in the allowed time, fail the test
+        self.fail(
+            "http port didn't respond to the command \n"
+            "'{test_command}' as expected.\n"
+            "Result: {result}".format(test_command=test_command, result=response)
+        )
+
+    def grafana_imported_dashboards(self):
+        """Check that Grafana dashboards expected are there."""
+        dashboards = self.get_and_check_dashboards(lambda dashes: len(dashes) >= 4)
+        self.assertTrue(len(dashboards) >= 4)
+        self.assertTrue(
+            all(
+                dash.get("type", "") == "dash-db"
+                and dash.get("uri", "").startswith("db/juju-")
+                for dash in dashboards
+            )
+        )
 
     def charm_functests(self):
         """Run some basic functests on the deployed bundle.
@@ -57,6 +137,8 @@ class TestBase(unittest.TestCase):
 
         """
         self.nagios_functests()
+        self.is_grafana_api_ready()
+        self.grafana_imported_dashboards()
 
     def nagios_functests(self):
         """Nagios tests."""
