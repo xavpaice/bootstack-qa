@@ -25,7 +25,7 @@ applications:
     num_units: 1
     to:
       - "1"
-  elasticsearch:
+  elastic:
     charm: cs:elasticsearch
     num_units: 1
     options:
@@ -53,7 +53,7 @@ applications:
     num_units: 1
     to:
       - "6"
-  mongodb:
+  mongo:
     charm: cs:mongodb
     num_units: 1
     to:
@@ -190,9 +190,9 @@ relations:
 - - graylog:beats
   - filebeat:logstash
 - - graylog:mongodb
-  - mongodb:database
+  - mongo:database
 - - graylog:elasticsearch
-  - elasticsearch:client
+  - elastic:client
 - - easyrsa:client
   - graylog:certificates
 - - sysconfig:juju-info
@@ -270,4 +270,5 @@ relations:
   - nagios:juju-info
 - - grafana:nrpe-external-master
   - nrpe:nrpe-external-master
-
+- - graylog:nrpe-external-master
+  - nrpe:nrpe-external-master

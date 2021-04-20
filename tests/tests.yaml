@@ -10,8 +10,12 @@ smoke_bundles:
 tests:
   - upgrade:
     - tests.modules.bootstackqa.BootstackCandidateUpgrade
+    - lib.graylog.src.tests.functional.tests.test_legacy.LegacyTests
+    - lib.graylog.src.tests.functional.tests.test_graylog_charm.CharmOperationTest
   - candidate:
     - tests.modules.bootstackqa.BootstackCandidateInstall
+    - lib.graylog.src.tests.functional.tests.test_legacy.LegacyTests
+    - lib.graylog.src.tests.functional.tests.test_graylog_charm.CharmOperationTest
 target_deploy_status:
   easyrsa:
     workload-status: "active"

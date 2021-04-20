@@ -30,13 +30,15 @@ class TestBase(unittest.TestCase):
         """Run setup for tests."""
         cls.model_name = model.get_juju_model()
         cls.deployed_apps = model.sync_deployed()
+        # list of deploy applications to try upgrade
+        # note not the charm names, the application names.
         cls.charms = [
             "canonical-livepatch",
-            "elasticsearch",
+            "elastic",
             "grafana",
             "graylog",
             "hw-health",
-            "mongodb",
+            "mongo",
             "nagios",
             "nrpe",
             "openstack-service-checks",

@@ -1,0 +1,3 @@
+[submodule "lib/graylog"]
+	path = lib/graylog
+	url = https://git.launchpad.net/charm-graylog
