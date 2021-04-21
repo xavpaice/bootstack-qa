@@ -18,11 +18,6 @@ applications:
       - "1"
       - "2"
       - "3"
-  easyrsa:
-    charm: cs:~containers/easyrsa
-    num_units: 1
-    to:
-      - "1"
   elastic:
     charm: cs:elasticsearch
     num_units: 1
@@ -203,8 +198,6 @@ relations:
   - mongo:database
 - - graylog:elasticsearch
   - elastic:client
-- - easyrsa:client
-  - graylog:certificates
 - - sysconfig:juju-info
   - mysql:juju-info
 - - openstack-service-checks:juju-info

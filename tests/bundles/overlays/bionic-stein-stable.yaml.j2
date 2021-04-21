@@ -1,0 +1,23 @@
+applications:
+  ceph-mon:
+    options:
+      source: cloud:bionic-stein
+  ceph-osd:
+    options:
+      source: cloud:bionic-stein
+  nova-cloud-controller:
+    options:
+      openstack-origin: cloud:bionic-stein
+  cinder:
+    options:
+      openstack-origin: cloud:bionic-stein
+  nova-compute:
+    options:
+      openstack-origin: cloud:bionic-stein
+  glance:
+    num_units: 1
+    options:
+      openstack-origin: cloud:bionic-stein
+  neutron-api:
+    options:
+      openstack-origin: cloud:bionic-stein

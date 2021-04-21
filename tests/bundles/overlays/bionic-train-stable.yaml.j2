@@ -1,0 +1,23 @@
+applications:
+  ceph-mon:
+    options:
+      source: cloud:bionic-train
+  ceph-osd:
+    options:
+      source: cloud:bionic-train
+  nova-cloud-controller:
+    options:
+      openstack-origin: cloud:bionic-train
+  cinder:
+    options:
+      openstack-origin: cloud:bionic-train
+  nova-compute:
+    options:
+      openstack-origin: cloud:bionic-train
+  glance:
+    num_units: 1
+    options:
+      openstack-origin: cloud:bionic-train
+  neutron-api:
+    options:
+      openstack-origin: cloud:bionic-train

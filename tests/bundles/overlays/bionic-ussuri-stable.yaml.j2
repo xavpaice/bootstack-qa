@@ -1,0 +1,27 @@
+series: bionic
+applications:
+  ceph-mon:
+    options:
+      source: cloud:bionic-ussuri
+  ceph-osd:
+    options:
+      source: cloud:bionic-ussuri
+  nova-cloud-controller:
+    options:
+      openstack-origin: cloud:bionic-ussuri
+  cinder:
+    options:
+      openstack-origin: cloud:bionic-ussuri
+  nova-compute:
+    options:
+      openstack-origin: cloud:bionic-ussuri
+  glance:
+    num_units: 1
+    options:
+      openstack-origin: cloud:bionic-ussuri
+  neutron-api:
+    options:
+      openstack-origin: cloud:bionic-ussuri
+  placement:
+    options:
+      openstack-origin: cloud:bionic-ussuri

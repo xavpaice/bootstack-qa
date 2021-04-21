@@ -1,4 +1,4 @@
-i
+series: focal
 applications:
   elasticsearch:
     channel: candidate
@@ -30,3 +30,27 @@ applications:
     channel: candidate
   prometheus-libvirt-exporter:
     channel: candidate
+  ceph-osd:
+    options:
+      source: cloud:focal-victoria
+  ceph-mon:
+    options:
+      source: cloud:focal-victoria
+  nova-cloud-controller:
+    options:
+      source: cloud:focal-victoria
+  nova-compute:
+    options:
+      source: cloud:focal-victoria
+  keystone:
+    options:
+      source: cloud:focal-victoria
+  cinder:
+    options:
+      source: cloud:focal-victoria
+  glance:
+    options:
+      source: cloud:focal-victoria
+  neutron-api:
+    options:
+      source: cloud:focal-victoria
