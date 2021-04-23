@@ -1,7 +1,5 @@
 PROJECTPATH=$(dir $(realpath $(MAKEFILE_LIST)))
-ifndef CHARM_BUILD_DIR
-	CHARM_BUILD_DIR=${PROJECTPATH}.build
-endif
+CHARM_BUILD_DIR=${PROJECTPATH}.build
 
 
 submodules:
@@ -13,10 +11,13 @@ submodules-update:
 	@git submodule update --init --recursive --remote --merge
 
 builds: submodules submodules-update
-	@cd mod/graylog ; make build
+	@cd lib/graylog ; make build
 
 functional: builds
 	tox -e func
+
+smoke: builds
+	tox -e smoke
 
 clean:
 	@rm -rf .tox .build/*
