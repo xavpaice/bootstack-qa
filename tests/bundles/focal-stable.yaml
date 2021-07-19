@@ -63,6 +63,8 @@ applications:
     series: bionic
     to:
       - "8"
+    options:
+      enable_livestatus: true
   nrpe:
     charm: cs:nrpe
     options:
