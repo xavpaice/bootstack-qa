@@ -186,7 +186,7 @@ class TestBase(unittest.TestCase):
         expected_services = {
             "juju-ceph-mon-0-ceph",
             "juju-ceph-osd-0-ceph-osd",
-            "juju-grafana-0-grafana-server",
+            "juju-grafana-0-grafana-http",
             "juju-openstack-service-checks-0-keystone_public",
             "juju-prometheus-ceph-exporter-0-prometheus_ceph_exporter_http",
             "juju-prometheus-openstack-exporter-0-prometheus_openstack_exporter_http",

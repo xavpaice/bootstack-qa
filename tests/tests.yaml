@@ -24,7 +24,7 @@ target_deploy_status:
     workload-status-message: "Certificate Authority connected."
   grafana:
     workload-status: "active"
-    workload-status-message: "Started grafana-server"
+    workload-status-message: "Started"
   telegraf:
     workload-status: "active"
     workload-status-message: "Monitoring"
