@@ -7,6 +7,18 @@ applications:
       monitor-count: 1
     to:
       - "0"
+  placement:
+    charm: cs:placement
+    num_units: 1
+    to:
+      - "0"
+  prometheus-openstack-exporter:
+    charm: cs:prometheus-openstack-exporter
+    num_units: 1
+    options:
+      snap_channel: stable
+    to:
+      - "0"
   ceph-osd:
     charm: cs:ceph-osd
     num_units: 3
@@ -18,109 +30,20 @@ applications:
       - "1"
       - "2"
       - "3"
-  elastic:
-    charm: cs:elasticsearch
+  easyrsa:
+    charm: cs:~containers/easyrsa
     num_units: 1
+    to:
+      - "1"
+  neutron-api:
+    charm: cs:neutron-api
+    num_units: 1
+    to:
+      - "1"
     options:
-      es-heap-size: 1
-    to:
-      - "15"
-  filebeat:
-    charm: cs:filebeat
-  grafana:
-    charm: cs:grafana
-    num_units: 1
-    to:
-      - "5"
-    options:
-      install_method: snap
-      snap_channel: 21.04/stable
-  graylog:
-    charm: cs:graylog
-    num_units: 1
-    options:
-      channel: 2/stable
-    to:
-      - "4"
-  hw-health:
-    charm: cs:hw-health
-  keystone:
-    charm: cs:keystone
-    num_units: 1
-    to:
-      - "6"
-  mongo:
-    charm: cs:mongodb
-    num_units: 1
-    to:
-      - "14"
-  mysql:
-    charm: cs:percona-cluster
-    num_units: 1
-    series: bionic
-    to:
-      - "7"
-  nagios:
-    charm: cs:nagios
-    num_units: 1
-    series: bionic
-    to:
-      - "8"
-    options:
-      enable_livestatus: true
-  nrpe:
-    charm: cs:nrpe
-    options:
-      swap: ''
-  nova-cloud-controller:
-    charm: cs:nova-cloud-controller
-    num_units: 1
-    to:
-      - "9"
-  cinder:
-    charm: cs:cinder
-    num_units: 1
-    to:
-      - "10"
-  rabbitmq-server:
-    charm: cs:rabbitmq-server
-    num_units: 1
-    to:
-      - "11"
-  prometheus:
-    charm: cs:prometheus2
-    num_units: 1
-    to:
-      - "12"
-  prometheus-alertmanager:
-    charm: cs:prometheus-alertmanager
-    num_units: 1
-    to:
-      - "13"
-  prometheus-ceph-exporter:
-    charm: cs:prometheus-ceph-exporter
-    num_units: 1
-    to:
-      - "13"
-  prometheus-openstack-exporter:
-    charm: cs:prometheus-openstack-exporter
-    num_units: 1
-    options:
-      snap_channel: stable
-    to:
-      - "0"
-  openstack-service-checks:
-    charm: cs:openstack-service-checks
-    num_units: 1
-    options:
-      check-neutron-agents: False
-      check-octavia: False
-    to:
-      - "12"
-  sysconfig:
-    charm: cs:sysconfig
-  telegraf:
-    charm: cs:telegraf-41
+      manage-neutron-plugin-legacy-mode: True
+      flat-network-providers: physnet1
+      neutron-security-groups: true
   nova-compute:
     charm: cs:nova-compute
     num_units: 1
@@ -131,29 +54,101 @@ applications:
     num_units: 1
     to:
       - "3"
-  neutron-api:
-    charm: cs:neutron-api
+  graylog:
+    charm: cs:graylog
     num_units: 1
-    to:
-      - "1"
     options:
-      manage-neutron-plugin-legacy-mode: True
-      flat-network-providers: physnet1
-      neutron-security-groups: true
-  placement:
-    charm: cs:placement
+      channel: 2/stable
+    to:
+      - "4"
+  mysql:
+    charm: cs:percona-cluster
+    num_units: 1
+    series: bionic
+    to:
+      - "5"
+  nagios:
+    charm: cs:nagios
+    num_units: 1
+    series: bionic
+    to:
+      - "6"
+    options:
+      enable_livestatus: true
+  openstack-service-checks:
+    charm: cs:openstack-service-checks
+    num_units: 1
+    options:
+      check-neutron-agents: False
+      check-octavia: False
+    to:
+      - "7"
+  prometheus:
+    charm: cs:prometheus2
     num_units: 1
     to:
-      - "0"
-  neutron-openvswitch:
-    charm: cs:neutron-openvswitch
-    num_units: 0
-  prometheus-libvirt-exporter:
-    charm: cs:prometheus-libvirt-exporter
-    num_units: 0
+      - "7"
+  prometheus-alertmanager:
+    charm: cs:prometheus-alertmanager
+    num_units: 1
+    to:
+      - "8"
+  prometheus-ceph-exporter:
+    charm: cs:prometheus-ceph-exporter
+    num_units: 1
+    to:
+      - "8"
   canonical-livepatch:
     charm: cs:canonical-livepatch
     num_units: 0
+  cinder:
+    charm: cs:cinder
+    num_units: 1
+  elastic:
+    charm: cs:elasticsearch
+    num_units: 1
+    options:
+      es-heap-size: 1
+  filebeat:
+    charm: cs:filebeat
+  grafana:
+    charm: cs:grafana
+    num_units: 1
+    options:
+      install_method: snap
+      snap_channel: 21.04/stable
+  hw-health:
+    charm: cs:hw-health
+  keystone:
+    charm: cs:keystone
+    num_units: 1
+  mongo:
+    charm: cs:mongodb
+    num_units: 1
+  neutron-openvswitch:
+    charm: cs:neutron-openvswitch
+    num_units: 0
+  nrpe:
+    charm: cs:nrpe
+    options:
+      swap: ''
+  nova-cloud-controller:
+    charm: cs:nova-cloud-controller
+    num_units: 1
+  prometheus-libvirt-exporter:
+    charm: cs:prometheus-libvirt-exporter
+    num_units: 0
+  rabbitmq-server:
+    charm: cs:rabbitmq-server
+    num_units: 1
+  sysconfig:
+    charm: cs:sysconfig
+  telegraf:
+    charm: cs:telegraf-41
+  thruk-agent:
+    charm: cs:thruk-agent
+    num_units: 0
+    series: bionic
 machines:
   "0": {}
   "1": {}
@@ -161,19 +156,12 @@ machines:
   "3": {}
   "4":
     mem: 3G
-  "5": {}
-  "6": {}
-  "7":
+  "5":
     series: bionic
-  "8":
+  "6":
     series: bionic
-  "9": {}
-  "10": {}
-  "11": {}
-  "12": {}
-  "13": {}
-  "14": {}
-  "15": {}
+  "7": {}
+  "8": {}
 relations:
 - - prometheus-openstack-exporter:nrpe-external-master
   - nrpe:nrpe-external-master
@@ -203,6 +191,8 @@ relations:
   - mongo:database
 - - graylog:elasticsearch
   - elastic:client
+- - easyrsa:client
+  - graylog:certificates
 - - sysconfig:juju-info
   - mysql:juju-info
 - - openstack-service-checks:juju-info
@@ -292,8 +282,9 @@ relations:
   - prometheus-libvirt-exporter:scrape
 - - canonical-livepatch:juju-info
   - ceph-osd:juju-info
+- - thruk-agent:general-info
+  - nagios:juju-info
 - - grafana:nrpe-external-master
   - nrpe:nrpe-external-master
 - - graylog:nrpe-external-master
   - nrpe:nrpe-external-master
-
