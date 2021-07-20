@@ -23,6 +23,10 @@ applications:
     options:
       openstack-origin: cloud:bionic-ussuri
   placement:
+    charm: cs:placement
+    num_units: 1
+    to:
+      - "0"
     options:
       openstack-origin: cloud:bionic-ussuri
   elasticsearch:
@@ -55,3 +59,10 @@ applications:
     channel: candidate
   prometheus-libvirt-exporter:
     channel: candidate
+relations:
+- - placement:shared-db
+  - mysql:shared-db
+- - placement:identity-service
+  - keystone:identity-service
+- - placement:placement
+  - nova-cloud-controller:placement
