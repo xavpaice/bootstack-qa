@@ -56,13 +56,13 @@ applications:
     num_units: 1
     series: bionic
     to:
-      - "7"
+      - "5"
   nagios:
     charm: cs:nagios
     num_units: 1
     series: bionic
     to:
-      - "8"
+      - "6"
     options:
       enable_livestatus: true
   thruk-agent:
@@ -86,17 +86,17 @@ applications:
     charm: cs:prometheus2
     num_units: 1
     to:
-      - "12"
+      - "7"
   prometheus-alertmanager:
     charm: cs:prometheus-alertmanager
     num_units: 1
     to:
-      - "13"
+      - "8"
   prometheus-ceph-exporter:
     charm: cs:prometheus-ceph-exporter
     num_units: 1
     to:
-      - "13"
+      - "8"
   prometheus-openstack-exporter:
     charm: cs:prometheus-openstack-exporter
     num_units: 1
@@ -111,7 +111,7 @@ applications:
       check-neutron-agents: False
       check-octavia: False
     to:
-      - "12"
+      - "7"
   sysconfig:
     charm: cs:sysconfig
   telegraf:
@@ -156,12 +156,12 @@ machines:
   "3": {}
   "4":
     mem: 3G
-  "7":
+  "5":
     series: bionic
-  "8":
+  "6":
     series: bionic
-  "12": {}
-  "13": {}
+  "7": {}
+  "8": {}
 relations:
 - - prometheus-openstack-exporter:nrpe-external-master
   - nrpe:nrpe-external-master
