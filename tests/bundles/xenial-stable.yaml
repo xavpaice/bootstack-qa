@@ -8,6 +8,14 @@ applications:
       source: cloud:xenial-queens
     to:
       - "0"
+  # Skipping placement; placement not compatible with xenial/queens
+  prometheus-openstack-exporter:
+    charm: cs:prometheus-openstack-exporter
+    num_units: 1
+    options:
+      snap_channel: stable
+    to:
+      - "0"
   ceph-osd:
     charm: cs:ceph-osd
     num_units: 3
@@ -25,23 +33,30 @@ applications:
     num_units: 1
     to:
       - "1"
-  elastic:
-    charm: cs:elasticsearch
-    num_units: 1
-    options:
-      es-heap-size: 1
-    to:
-      - "15"
-  filebeat:
-    charm: cs:filebeat
-  grafana:
-    charm: cs:grafana
+  neutron-api:
+    charm: cs:neutron-api
     num_units: 1
     to:
-      - "5"
+      - "1"
     options:
-      install_method: snap
-      snap_channel: 21.04/stable
+      openstack-origin: cloud:xenial-queens
+      manage-neutron-plugin-legacy-mode: True
+      flat-network-providers: physnet1
+      neutron-security-groups: true
+  nova-compute:
+    charm: cs:nova-compute
+    options:
+      openstack-origin: cloud:xenial-queens
+    num_units: 1
+    to:
+      - "2"
+  glance:
+    charm: cs:glance
+    num_units: 1
+    options:
+      openstack-origin: cloud:xenial-queens
+    to:
+      - "3"
   graylog:
     charm: cs:graylog
     num_units: 1
@@ -49,18 +64,6 @@ applications:
       channel: 2/stable
     to:
       - "4"
-  hw-health:
-    charm: cs:hw-health
-  keystone:
-    charm: cs:keystone
-    num_units: 1
-    to:
-      - "6"
-  mongo:
-    charm: cs:mongodb
-    num_units: 1
-    to:
-      - "14"
   mysql:
     charm: cs:percona-cluster
     num_units: 1
@@ -73,32 +76,7 @@ applications:
       - "8"
     options:
       enable_livestatus: true
-  thruk-agent:
-    charm: cs:thruk-agent
-    num_units: 0
-  nrpe:
-    charm: cs:nrpe
-    options:
-      swap: ''
-  nova-cloud-controller:
-    charm: cs:nova-cloud-controller
-    num_units: 1
-    to:
-      - "9"
-    options:
-      openstack-origin: cloud:xenial-queens
-  cinder:
-    charm: cs:cinder
-    num_units: 1
-    options:
-      openstack-origin: cloud:xenial-queens
-    to:
-      - "10"
-  rabbitmq-server:
-    charm: cs:rabbitmq-server
-    num_units: 1
-    to:
-      - "11"
+  # Skipping openstack-service-checks; not available on xenial
   prometheus:
     charm: cs:prometheus2
     num_units: 1
@@ -114,44 +92,51 @@ applications:
     num_units: 1
     to:
       - "13"
-  prometheus-openstack-exporter:
-    charm: cs:prometheus-openstack-exporter
+  elastic:
+    charm: cs:elasticsearch
     num_units: 1
     options:
-      snap_channel: stable
-    to:
-      - "0"
-  # openstack-service-checks is not available on xenial; skipping
+      es-heap-size: 1
+  filebeat:
+    charm: cs:filebeat
+  grafana:
+    charm: cs:grafana
+    num_units: 1
+    options:
+      install_method: snap
+      snap_channel: 21.04/stable
+  hw-health:
+    charm: cs:hw-health
+  keystone:
+    charm: cs:keystone
+    num_units: 1
+  mongo:
+    charm: cs:mongodb
+    num_units: 1
+  thruk-agent:
+    charm: cs:thruk-agent
+    num_units: 0
+  nrpe:
+    charm: cs:nrpe
+    options:
+      swap: ''
+  nova-cloud-controller:
+    charm: cs:nova-cloud-controller
+    num_units: 1
+    options:
+      openstack-origin: cloud:xenial-queens
+  cinder:
+    charm: cs:cinder
+    num_units: 1
+    options:
+      openstack-origin: cloud:xenial-queens
+  rabbitmq-server:
+    charm: cs:rabbitmq-server
+    num_units: 1
   sysconfig:
     charm: cs:sysconfig
   telegraf:
     charm: cs:telegraf-41
-  nova-compute:
-    charm: cs:nova-compute
-    options:
-      openstack-origin: cloud:xenial-queens
-    num_units: 1
-    to:
-      - "2"
-  glance:
-    charm: cs:glance
-    num_units: 1
-    options:
-      openstack-origin: cloud:xenial-queens
-    to:
-      - "3"
-  neutron-api:
-    charm: cs:neutron-api
-    options:
-      openstack-origin: cloud:xenial-queens
-    num_units: 1
-    to:
-      - "1"
-    options:
-      manage-neutron-plugin-legacy-mode: True
-      flat-network-providers: physnet1
-      neutron-security-groups: true
-  # Skipping placement; placement not compatible with xenial/queens
   neutron-openvswitch:
     charm: cs:neutron-openvswitch
     num_units: 0
@@ -168,17 +153,10 @@ machines:
   "3": {}
   "4":
     mem: 3G
-  "5": {}
-  "6": {}
-  "7": {} 
+  "7": {}
   "8": {}
-  "9": {}
-  "10": {}
-  "11": {}
   "12": {}
   "13": {}
-  "14": {}
-  "15": {}
 relations:
 - - prometheus-openstack-exporter:nrpe-external-master
   - nrpe:nrpe-external-master
