@@ -98,6 +98,12 @@ applications:
     num_units: 1
     to:
       - "8"
+  canonical-livepatch:
+    charm: cs:canonical-livepatch
+    num_units: 0
+  cinder:
+    charm: cs:cinder
+    num_units: 1
   elastic:
     charm: cs:elasticsearch
     num_units: 1
@@ -119,10 +125,9 @@ applications:
   mongo:
     charm: cs:mongodb
     num_units: 1
-  thruk-agent:
-    charm: cs:thruk-agent
+  neutron-openvswitch:
+    charm: cs:neutron-openvswitch
     num_units: 0
-    series: bionic
   nrpe:
     charm: cs:nrpe
     options:
@@ -130,9 +135,9 @@ applications:
   nova-cloud-controller:
     charm: cs:nova-cloud-controller
     num_units: 1
-  cinder:
-    charm: cs:cinder
-    num_units: 1
+  prometheus-libvirt-exporter:
+    charm: cs:prometheus-libvirt-exporter
+    num_units: 0
   rabbitmq-server:
     charm: cs:rabbitmq-server
     num_units: 1
@@ -140,15 +145,10 @@ applications:
     charm: cs:sysconfig
   telegraf:
     charm: cs:telegraf-41
-  neutron-openvswitch:
-    charm: cs:neutron-openvswitch
+  thruk-agent:
+    charm: cs:thruk-agent
     num_units: 0
-  prometheus-libvirt-exporter:
-    charm: cs:prometheus-libvirt-exporter
-    num_units: 0
-  canonical-livepatch:
-    charm: cs:canonical-livepatch
-    num_units: 0
+    series: bionic
 machines:
   "0": {}
   "1": {}
