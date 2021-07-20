@@ -1,6 +1,6 @@
 PROJECTPATH=$(dir $(realpath $(MAKEFILE_LIST)))
 CHARM_BUILD_DIR=${PROJECTPATH}.build
-
+export CHARM_BUILD_DIR
 
 submodules:
 	@echo "Cloning submodules"
