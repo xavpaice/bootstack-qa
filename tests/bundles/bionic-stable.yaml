@@ -67,10 +67,10 @@ applications:
   nagios:
     charm: cs:nagios
     num_units: 1
-    options:
-      enable_livestatus: true
     to:
       - "8"
+    options:
+      enable_livestatus: true
   thruk-agent:
     charm: cs:thruk-agent
     num_units: 0
@@ -142,6 +142,14 @@ applications:
     num_units: 1
     to:
       - "1"
+    options:
+      manage-neutron-plugin-legacy-mode: True
+      flat-network-providers: physnet1
+      neutron-security-groups: true
+  # Skipping placement; placement not compatible with bionic/stein
+  neutron-openvswitch:
+    charm: cs:neutron-openvswitch
+    num_units: 0
   prometheus-libvirt-exporter:
     charm: cs:prometheus-libvirt-exporter
     num_units: 0
@@ -153,7 +161,8 @@ machines:
   "1": {}
   "2": {}
   "3": {}
-  "4": {}
+  "4":
+    mem: 3G
   "5": {}
   "6": {}
   "7": {} 
@@ -267,6 +276,13 @@ relations:
   - glance:image-service
 - - grafana:dashboards
   - telegraf:dashboards
+- - neutron-openvswitch:neutron-plugin-api
+  - neutron-api:neutron-plugin-api
+- - nova-compute:neutron-plugin
+  - neutron-openvswitch:neutron-plugin
+- - neutron-openvswitch:amqp
+  - rabbitmq-server:amqp
+# Skipping placement relations; placement not compatible with xenial/queens
 - - nova-compute:juju-info
   - prometheus-libvirt-exporter:juju-info
 - - prometheus:target
@@ -279,4 +295,3 @@ relations:
   - nrpe:nrpe-external-master
 - - graylog:nrpe-external-master
   - nrpe:nrpe-external-master
-

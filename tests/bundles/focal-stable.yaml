@@ -18,6 +18,11 @@ applications:
       - "1"
       - "2"
       - "3"
+  easyrsa:
+    charm: cs:~containers/easyrsa
+    num_units: 1
+    to:
+      - "1"
   elastic:
     charm: cs:elasticsearch
     num_units: 1
@@ -68,6 +73,10 @@ applications:
       - "8"
     options:
       enable_livestatus: true
+  thruk-agent:
+    charm: cs:thruk-agent
+    num_units: 0
+    series: bionic
   nrpe:
     charm: cs:nrpe
     options:
@@ -203,6 +212,8 @@ relations:
   - mongo:database
 - - graylog:elasticsearch
   - elastic:client
+- - easyrsa:client
+  - graylog:certificates
 - - sysconfig:juju-info
   - mysql:juju-info
 - - openstack-service-checks:juju-info
@@ -292,8 +303,9 @@ relations:
   - prometheus-libvirt-exporter:scrape
 - - canonical-livepatch:juju-info
   - ceph-osd:juju-info
+- - thruk-agent:general-info
+  - nagios:juju-info
 - - grafana:nrpe-external-master
   - nrpe:nrpe-external-master
 - - graylog:nrpe-external-master
   - nrpe:nrpe-external-master
-
