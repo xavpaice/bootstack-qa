@@ -28,8 +28,9 @@ class TestBase(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         """Run setup for tests."""
+
         cls.model_name = model.get_juju_model()
-        cls.deployed_apps = model.sync_deployed()
+        cls.deployed_apps = model.sync_deployed(model_name=cls.model_name)
         # list of deploy applications to try upgrade
         # note not the charm names, the application names.
         cls.charms = [
