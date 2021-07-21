@@ -21,25 +21,28 @@ tests:
 target_deploy_status:
   easyrsa:
     workload-status: "active"
-    workload-status-message: "Certificate Authority connected."
+    workload-status-message-prefix: "Certificate Authority connected."
   grafana:
     workload-status: "active"
-    workload-status-message: "Started"
+    workload-status-message-prefix: "Started"
   telegraf:
     workload-status: "active"
-    workload-status-message: "Monitoring"
+    workload-status-message-prefix: "Monitoring"
   sysconfig:
     workload-status: "active"
-    workload-status-message: "reboot required"
+    workload-status-message-prefix: "reboot required"
   prometheus-ceph-exporter:
     workload-status: "active"
-    workload-status-message: "Running"
+    workload-status-message-prefix: "Running"
   filebeat:
     workload-status: "active"
-    workload-status-message: "Filebeat ready."
+    workload-status-message-prefix: "Filebeat ready."
   canonical-livepatch:
     workload-status: "blocked"
-    workload-status-message: "Service disabled, please set livepatch_key to activate"
+    workload-status-message-prefix: "Service disabled, please set livepatch_key to activate"
+  prometheus-libvirt-exporter:
+    workload-status: "active"
+    workload-status-message-prefix: "Exporter installed and connected to libvirt slot"
 
 
 

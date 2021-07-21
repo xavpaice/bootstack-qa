@@ -187,7 +187,7 @@ class TestBase(unittest.TestCase):
             "juju-ceph-mon-0-ceph",
             "juju-ceph-osd-0-ceph-osd",
             "juju-grafana-0-grafana_http",
-            "juju-openstack-service-checks-0-keystone_public",
+            "juju-graylog-0-graylog_http",
             "juju-prometheus-ceph-exporter-0-prometheus_ceph_exporter_http",
             "juju-prometheus-openstack-exporter-0-prometheus_openstack_exporter_http",
         }
